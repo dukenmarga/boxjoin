@@ -7,16 +7,14 @@ name = "boxjoin"
 version = "0.0.1"
 requires-python = ">=3.10"
 dependencies = [
-    "numpy>=1.21",      # optional, but almost everyone has it
+    "numpy>=1.21",
+    "opencv-python>=4.5.5",
 ]
 authors = [
   { name="Duken Marga", email="dukenmarga@gmail.com" },
 ]
 description = "Bounding box clustering: group overlapped box into a large box"
 license = "MIT"
-
-[project.urls]
-Homepage = "https://github.com/dukenmarga/boxjoin"
 
 classifiers = [
     "Intended Audience :: Developers",
@@ -34,3 +32,6 @@ classifiers = [
     "Programming Language :: Python :: 3.14",
     "Operating System :: OS Independent",
 ]
+
+[project.urls]
+Homepage = "https://github.com/dukenmarga/boxjoin"
