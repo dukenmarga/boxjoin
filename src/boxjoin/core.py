@@ -1,6 +1,20 @@
 import cv2
+from typing import Literal
 
-def BoxClustering(boxes, img, path, w, h, offset):
+def BoxClustering(boxes, img, path, w, h, offset: int = 0, mode: Literal["xyxy", "xywh"] = "xyxy"):
+    if mode == "xyxy":
+        # default mode
+        pass
+    elif mode == "xywh":
+        for i, xywh in enumerate(boxes):
+            # Convert XYWH format (x,y center point and width, height) to XYXY format (x,y top left and x,y bottom right).
+            xyxy = xywh_to_xyxy(xywh)
+
+            # replace the xywh with xyxy
+            boxes[i] = xyxy
+    else:
+        raise ValueError("mode must be 'xyxy' or 'xywh'")
+
     clusters = start_clustering(boxes)
 
     for _, cluster in enumerate(clusters):
@@ -64,7 +78,7 @@ def boxes_overlap(box1, box2):
     return x1 < x4 and x3 < x2 and y1 < y4 and y3 < y2
 
 
-# Find the big rectangle coordinate of a cluster
+# Determine the big rectangle coordinate of a cluster
 # formed by a list of boxes.
 # It will be determined by the most left, most top, most right, and most bottom
 # of the boxes
@@ -88,4 +102,23 @@ def offset_box(x1, y1, x2, y2, w, h, offset):
     y1 = max(0, y1 - offset)
     x2 = min(w, x2 + offset)
     y2 = min(h, y2 + offset)
+
     return x1, y1, x2, y2
+
+def xywh_to_xyxy(xywh):
+    """
+    Convert XYWH format (x,y center point and width, height) to XYXY format (x,y top left and x,y bottom right).
+    :param xywh: [X, Y, W, H]
+    :return: [X1, Y1, X2, Y2]
+    """
+    if isinstance(xywh, list) and len(xywh) != 4:
+        for elem in xywh:
+            if not isinstance(elem, (int, float)):
+                raise ValueError('xywh format: [x1, y1, width, height]')
+        raise ValueError('xywh format: [x1, y1, width, height]')
+    x1 = xywh[0] - xywh[2] / 2
+    y1 = xywh[1] - xywh[3] / 2
+    x2 = xywh[0] + xywh[2] / 2
+    y2 = xywh[1] + xywh[3] / 2
+
+    return [int(x1), int(y1), int(x2), int(y2)]
