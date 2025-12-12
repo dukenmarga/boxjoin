@@ -26,7 +26,7 @@ def start_clustering(boxes):
         # cluster contains all the boxes in a cluster
         cluster = []
         cluster = fit_box_to_current_cluster(
-            box, cluster, boxes, done_boxes
+            box=box, boxes=boxes, cluster=cluster, done_boxes=done_boxes
         )
 
         # If the cluster is not empty, add it to the clusters
@@ -44,12 +44,13 @@ def fit_box_to_current_cluster(box, boxes, cluster, done_boxes):
         # If a box has formed a cluster, skip
         if i in done_boxes:
             continue
+
         # If not, check if it overlaps with neighboring boxes
         if boxes_overlap(box, next_box):
             cluster.append(next_box)
             done_boxes.append(i)
             cluster = fit_box_to_current_cluster(
-                next_box, boxes, cluster, done_boxes
+                box=next_box, boxes=boxes, cluster=cluster, done_boxes=done_boxes
             )
 
     return cluster
