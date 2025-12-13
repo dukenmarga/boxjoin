@@ -2,7 +2,7 @@ import cv2
 from typing import Literal
 import numpy as np
 
-def BoxClustering(boxes, img = None, save_path = None, w = 0, h = 0, tolerance: float = 0., offset: int = 0, mode: Literal["xyxy", "xywh"] = "xyxy"):
+def BoxClustering(boxes, img = None, save_path = None, w = 0, h = 0, tolerance: float = 0., offset: int = 0, mode: Literal["xyxy", "xywh"] = "xyxy", xy_mode: Literal["center", "top_left"] = "center"):
     # If img is provided, path must be provided
     if img is not None and save_path is None:
         raise ValueError("path must be provided if img is provided")
@@ -32,8 +32,8 @@ def BoxClustering(boxes, img = None, save_path = None, w = 0, h = 0, tolerance: 
         pass
     elif mode == "xywh":
         for i, xywh in enumerate(boxes):
-            # Convert XYWH format (x,y center point and width, height) to XYXY format (x,y top left and x,y bottom right).
-            xyxy = xywh_to_xyxy(xywh)
+            # Convert XYWH format (x,y, width, height) to XYXY format (x,y top left and x,y bottom right).
+            xyxy = xywh_to_xyxy(xywh, xy_mode)
 
             # replace the xywh with xyxy
             boxes[i] = xyxy
@@ -144,13 +144,13 @@ def offset_box(x1, y1, x2, y2, w, h, offset):
 
     return x1, y1, x2, y2
 
-def xywh_to_xyxy(xywh, xy: Literal["center", "top_left"] = "center"):
-    if xy == "center":
+def xywh_to_xyxy(xywh, xy_mode: Literal["center", "top_left"] = "center"):
+    if xy_mode == "center":
         return xywh_to_xyxy_center(xywh)
-    elif xy == "top_left":
+    elif xy_mode == "top_left":
         return xywh_to_xyxy_top_left(xywh)
     else:
-        raise ValueError("xy must be 'center' or 'top_left'")
+        raise ValueError("xy_mode must be 'center' or 'top_left'")
 
 def xywh_to_xyxy_center(xywh):
     """
