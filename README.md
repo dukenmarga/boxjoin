@@ -25,8 +25,8 @@ But, currently it is not label aware and working based on coordinate.
 #### Group of text from Medium
 Source: https://stackoverflow.com/questions/66490374/how-to-merge-nearby-bounding-boxes-opencv
 
-![Medium](https://raw.githubusercontent.com/dukenmarga/boxjoin/main/images/medium.jpg)
-![Grouped](https://raw.githubusercontent.com/dukenmarga/boxjoin/main/images/medium-grouped.jpg)
+![Medium](https://raw.githubusercontent.com/dukenmarga/boxjoin/main/images/medium.png)
+![Grouped](https://raw.githubusercontent.com/dukenmarga/boxjoin/main/images/medium-grouped.png)
 
 ### Example
 
