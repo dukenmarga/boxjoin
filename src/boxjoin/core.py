@@ -7,10 +7,6 @@ def BoxClustering(boxes, img = None, save_path = None, w = 0, h = 0, offset: int
     if img is not None and save_path is None:
         raise ValueError("path must be provided if img is provided")
 
-    # If img is provided and w and h are not provided, get them from the image
-    if img is not None and w == 0 and h == 0:
-        h, w = img.shape[:2]
-
     # img is preferred to be numpy array (BGR) opened with cv2.
     # If not, we assume it is PIL image (RGB). Convert it to numpy array.
     if img is not None:
@@ -19,6 +15,10 @@ def BoxClustering(boxes, img = None, save_path = None, w = 0, h = 0, offset: int
         else:
             numpy_image_rgb = np.array(img)
             img = cv2.cvtColor(numpy_image_rgb, cv2.COLOR_RGB2BGR)
+
+    # If img is provided and w and h are not provided, get them from the image
+    if img is not None and w == 0 and h == 0:
+        h, w = img.shape[:2]
 
     # If mode is xywh, convert all boxes to xyxy
     if mode == "xyxy":
