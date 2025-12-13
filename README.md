@@ -14,12 +14,19 @@ But, currently it is not label aware and working based on coordinate.
 
 ### Showcase
 
+#### Group of people
 ![Inference](https://raw.githubusercontent.com/dukenmarga/boxjoin/main/images/people.jpg)
 ![Grouped](https://raw.githubusercontent.com/dukenmarga/boxjoin/main/images/people-grouped.jpg)
 
-
+#### Walking at the park
 ![Inference](https://raw.githubusercontent.com/dukenmarga/boxjoin/main/images/people-walking.jpg)
 ![Grouped](https://raw.githubusercontent.com/dukenmarga/boxjoin/main/images/people-walking-grouped.jpg)
+
+#### Group of text from Medium
+Source: https://stackoverflow.com/questions/66490374/how-to-merge-nearby-bounding-boxes-opencv
+
+![Medium](https://raw.githubusercontent.com/dukenmarga/boxjoin/main/images/medium.jpg)
+![Grouped](https://raw.githubusercontent.com/dukenmarga/boxjoin/main/images/medium-grouped.jpg)
 
 ### Example
 
