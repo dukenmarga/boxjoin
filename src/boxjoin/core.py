@@ -1,7 +1,26 @@
 import cv2
 from typing import Literal
+import numpy as np
 
-def BoxClustering(boxes, img, path, w, h, offset: int = 0, mode: Literal["xyxy", "xywh"] = "xyxy"):
+def BoxClustering(boxes, img = None, save_path = None, w = 0, h = 0, offset: int = 0, mode: Literal["xyxy", "xywh"] = "xyxy"):
+    # If img is provided, path must be provided
+    if img is not None and save_path is None:
+        raise ValueError("path must be provided if img is provided")
+
+    # If img is provided and w and h are not provided, get them from the image
+    if img is not None and w == 0 and h == 0:
+        h, w = img.shape[:2]
+
+    # img is preferred to be numpy array (BGR) opened with cv2.
+    # If not, we assume it is PIL image (RGB). Convert it to numpy array.
+    if img is not None:
+        if isinstance(img, np.ndarray):
+            pass
+        else:
+            numpy_image_rgb = np.array(img)
+            img = cv2.cvtColor(numpy_image_rgb, cv2.COLOR_RGB2BGR)
+
+    # If mode is xywh, convert all boxes to xyxy
     if mode == "xyxy":
         # default mode
         pass
@@ -20,8 +39,13 @@ def BoxClustering(boxes, img, path, w, h, offset: int = 0, mode: Literal["xyxy",
     for _, cluster in enumerate(clusters):
         x1, y1, x2, y2 = find_cluster_coordinate(cluster)
         x1, y1, x2, y2 = offset_box(x1, y1, x2, y2, w, h, offset)
-        cv2.rectangle(img, (int(x1), int(y1)), (int(x2), int(y2)), (0, 255, 0), 8)
-    cv2.imwrite(path, img)
+        if img is not None:
+            cv2.rectangle(img, (int(x1), int(y1)), (int(x2), int(y2)), (0, 255, 0), 8)
+
+    if img is not None:
+        cv2.imwrite(save_path, img)
+
+    return clusters
 
 # Start clustering the boxes
 def start_clustering(boxes):
