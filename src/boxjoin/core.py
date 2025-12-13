@@ -2,7 +2,8 @@ import cv2
 from typing import Literal
 import numpy as np
 
-def BoxClustering(boxes, img = None, save_path = None, w = 0, h = 0, tolerance: float = 0., offset: int = 0, mode: Literal["xyxy", "xywh"] = "xyxy", xy_mode: Literal["center", "top_left"] = "center"):
+def BoxClustering(boxes, img = None, save_path = None, w = 0, h = 0, tolerance: float = 0., offset: int = 0, thickness: int = 5,
+    mode: Literal["xyxy", "xywh"] = "xyxy", xy_mode: Literal["center", "top_left"] = "center"):
     # If img is provided, path must be provided
     if img is not None and save_path is None:
         raise ValueError("path must be provided if img is provided")
@@ -55,7 +56,7 @@ def BoxClustering(boxes, img = None, save_path = None, w = 0, h = 0, tolerance: 
         x1, y1, x2, y2 = offset_box(x1, y1, x2, y2, w, h, offset)
         grouped_boxes_offset.append([x1, y1, x2, y2])
         if img is not None:
-            cv2.rectangle(img, (int(x1), int(y1)), (int(x2), int(y2)), (0, 255, 0), 8)
+            cv2.rectangle(img, (int(x1), int(y1)), (int(x2), int(y2)), (0, 255, 0), thickness)
 
     if img is not None:
         cv2.imwrite(save_path, img)
