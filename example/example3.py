@@ -1,15 +1,9 @@
 import boxjoin
-import cv2
 
-filename = "people-walking-original.jpg"
-save_path = "people-walking-original-grouped.jpg"
-
-# Load the image using OpenCV (preferred to be numpy array)
-img = cv2.imread(filename)
+# It can work without feeding an image
 
 # Each box is in the format of [x1, y1, x2, y2]
-# They can be extracted from YOLO output.
-# This example is simply for demonstration
+# They can be extracted from YOLO output
 boxes = [
     [143, 91, 174, 118],
     [142, 98, 164, 123],
@@ -27,7 +21,8 @@ boxes = [
     [151, 315, 196, 421]
 ]
 
-clusters = boxjoin.BoxClustering(boxes=boxes, img=img, save_path=save_path)
+# Just return the clusters without saving to file
+clusters = boxjoin.BoxClustering(boxes=boxes)
 
 for i, cluster in enumerate(clusters):
     print(f"Cluster {i}: {cluster}")
