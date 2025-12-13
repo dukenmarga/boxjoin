@@ -144,7 +144,15 @@ def offset_box(x1, y1, x2, y2, w, h, offset):
 
     return x1, y1, x2, y2
 
-def xywh_to_xyxy(xywh):
+def xywh_to_xyxy(xywh, xy: Literal["center", "top_left"] = "center"):
+    if xy == "center":
+        return xywh_to_xyxy_center(xywh)
+    elif xy == "top_left":
+        return xywh_to_xyxy_top_left(xywh)
+    else:
+        raise ValueError("xy must be 'center' or 'top_left'")
+
+def xywh_to_xyxy_center(xywh):
     """
     Convert XYWH format (x,y center point and width, height) to XYXY format (x,y top left and x,y bottom right).
     :param xywh: [X, Y, W, H]
@@ -159,5 +167,23 @@ def xywh_to_xyxy(xywh):
     y1 = xywh[1] - xywh[3] / 2
     x2 = xywh[0] + xywh[2] / 2
     y2 = xywh[1] + xywh[3] / 2
+
+    return [int(x1), int(y1), int(x2), int(y2)]
+
+def xywh_to_xyxy_top_left(xywh):
+    """
+    Convert XYWH format (x,y top left and width, height) to XYXY format (x,y top left and x,y bottom right).
+    :param xywh: [X, Y, W, H]
+    :return: [X1, Y1, X2, Y2]
+    """
+    if isinstance(xywh, list) and len(xywh) != 4:
+        for elem in xywh:
+            if not isinstance(elem, (int, float)):
+                raise ValueError('xywh format: [x1, y1, width, height]')
+        raise ValueError('xywh format: [x1, y1, width, height]')
+    x1 = xywh[0]
+    y1 = xywh[1]
+    x2 = xywh[0] + xywh[2]
+    y2 = xywh[1] + xywh[3]
 
     return [int(x1), int(y1), int(x2), int(y2)]
