@@ -14,12 +14,12 @@ But, currently it is not label aware and working based on coordinate.
 
 ### Showcase
 
-![Inference](./images/people.jpg)
-![Grouped](./images/people-grouped.jpg)
+![Inference](https://raw.githubusercontent.com/dukenmarga/boxjoin/main/images/people.jpg)
+![Grouped](https://raw.githubusercontent.com/dukenmarga/boxjoin/main/images/people-grouped.jpg)
 
 
-![Inference](./images/people-walking.jpg)
-![Grouped](./images/people-walking-grouped.jpg)
+![Inference](https://raw.githubusercontent.com/dukenmarga/boxjoin/main/images/people-walking.jpg)
+![Grouped](https://raw.githubusercontent.com/dukenmarga/boxjoin/main/images/people-walking-grouped.jpg)
 
 ### Example
 
