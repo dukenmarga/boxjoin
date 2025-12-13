@@ -2,7 +2,7 @@ import cv2
 from typing import Literal
 import numpy as np
 
-def BoxClustering(boxes, img = None, save_path = None, w = 0, h = 0, offset: int = 0, mode: Literal["xyxy", "xywh"] = "xyxy"):
+def BoxClustering(boxes, img = None, save_path = None, w = 0, h = 0, tolerance: float = 0., offset: int = 0, mode: Literal["xyxy", "xywh"] = "xyxy"):
     # If img is provided, path must be provided
     if img is not None and save_path is None:
         raise ValueError("path must be provided if img is provided")
@@ -40,8 +40,12 @@ def BoxClustering(boxes, img = None, save_path = None, w = 0, h = 0, offset: int
     else:
         raise ValueError("mode must be 'xyxy' or 'xywh'")
 
-    clusters = start_clustering(boxes)
+    # If tolerance is provided, offset the boxes before clustering
+    if tolerance > 0:
+        for i, xyxy in enumerate(boxes):
+            boxes[i] = offset_box(xyxy[0], xyxy[1], xyxy[2], xyxy[3], w, h, tolerance)
 
+    clusters = start_clustering(boxes)
 
     grouped_boxes = []
     grouped_boxes_offset = []
