@@ -20,6 +20,12 @@ def BoxClustering(boxes, img = None, save_path = None, w = 0, h = 0, offset: int
     if img is not None and w == 0 and h == 0:
         h, w = img.shape[:2]
 
+    # If img is not provided and w and h are not provided, set them to 99999
+    # This is for operation that does not require image input
+    if img is None and w == 0 and h == 0:
+        w = 99999
+        h = 99999
+
     # If mode is xywh, convert all boxes to xyxy
     if mode == "xyxy":
         # default mode
@@ -36,16 +42,21 @@ def BoxClustering(boxes, img = None, save_path = None, w = 0, h = 0, offset: int
 
     clusters = start_clustering(boxes)
 
+
+    grouped_boxes = []
+    grouped_boxes_offset = []
     for _, cluster in enumerate(clusters):
         x1, y1, x2, y2 = find_cluster_coordinate(cluster)
+        grouped_boxes.append([x1, y1, x2, y2])
         x1, y1, x2, y2 = offset_box(x1, y1, x2, y2, w, h, offset)
+        grouped_boxes_offset.append([x1, y1, x2, y2])
         if img is not None:
             cv2.rectangle(img, (int(x1), int(y1)), (int(x2), int(y2)), (0, 255, 0), 8)
 
     if img is not None:
         cv2.imwrite(save_path, img)
 
-    return clusters
+    return clusters, grouped_boxes, grouped_boxes_offset
 
 # Start clustering the boxes
 def start_clustering(boxes):
